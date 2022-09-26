@@ -2,10 +2,21 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from Employee.widgets import WEBPField
+
 # Create your models here.
 
-class User(AbstractUser):
+class Department(models.Model):
+    name = models.CharField(max_length=100)
 
+class User(AbstractUser):
+    cover_image = WEBPField(upload_to='user/cover_picture', blank=True, variations={
+        'large': (600, 400),
+        'thumbnail': (200, 200, True),
+        'medium': (300, 200),
+        'original': (None, None)
+    })
+    department = models.ForeignKey(Department,on_delete=models.CASCADE,null=True)
     
     def get_profile_pic(self):
         return(

@@ -1,0 +1,11 @@
+{% load static alerts %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags|std_tag_msg }} alert-dismissible" role="alert">
+            {{ message.tags|std_tag_icons|safe }}
+            {{ message|safe }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
