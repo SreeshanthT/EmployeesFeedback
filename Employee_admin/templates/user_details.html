@@ -1,0 +1,200 @@
+{% extends 'dashboard.html' %}
+{% block title %}{{user_detail}}{% endblock %}
+{% load static crispy_forms_tags %}
+{% block extra_css_plug %}
+<link rel="stylesheet" href="{% static 'user/assets/css/custom.css' %}">
+{% endblock %}
+{% block extra_css %}
+<style>
+    .helptext{
+        font-size: 10px;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item">
+                            <a href="/">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ request.META.HTTP_REFERER }}">Employee</a>
+                        </li>
+                        <li class="breadcrumb-item active">View Details</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">View Details | {{user_detail|title}}</h4>
+            </div>
+        </div>
+    </div>
+    {% include 'alert_messages.html' %}
+    <div class="row">
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a href="#user-info" data-bs-toggle="tab" aria-expanded="true" class="nav-link active">
+                    <i class="mdi mdi-account-alert-outline d-md-none d-block"></i>
+                    <span class="d-none d-md-block">Employee Info</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#assign" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                    <i class="mdi mdi-border-all d-md-none d-block"></i>
+                    <span class="d-none d-md-block">Assign for feedback</span>
+                </a>
+            </li>
+        </ul>
+        
+        <div class="tab-content">
+
+            <div class="tab-pane show active" id="user-info">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- Profile -->
+                        <div class="card bg-primary">
+                            <div class="card-body profile-user-box">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <div class="avatar-lg">
+                                                    <img src="{{user_detail.get_profile_pic}}" alt="" class="rounded-circle img-thumbnail">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div>
+                                                    <h4 class="mt-1 mb-1 text-white">{{user_detail|title}}</h4>
+                                                    <p class="font-13 text-white-50">{{user_detail.department}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- end col-->
+
+                                    <div class="col-sm-4">
+                                        <div class="text-center mt-sm-0 mt-3 text-sm-end">
+                                            <button type="button" class="btn btn-light href-btn" data-href="{% url 'manage-user' user_detail.slug %}">
+                                                <i class="mdi mdi-account-edit me-1"></i> Edit Profile
+                                            </button>
+                                        </div>
+                                        <div class="text-center mt-sm-0 mt-3 text-sm-end">
+                                            <br>    
+                                            <a class="text-white-50" href="#" data-bs-toggle="modal" data-bs-target="#standard-modal">change password</a>
+                                        </div>
+                                        <div id="standard-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="standard-modalLabel">Change Password</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                    </div>
+                                                    <form method="post" action="{% url 'change-password' user_detail.slug %}">{% csrf_token %}
+                                                    <div class="modal-body">
+                                                            {{change_password_form}}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-sm btn-primary">Change Password</button>
+                                                        </div>
+                                                    </form>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+                                    </div> <!-- end col-->
+                                </div> <!-- end row -->
+
+                            </div> <!-- end card-body/ profile-user-box-->
+                        </div><!--end profile/ card -->
+                    </div> <!-- end col-->
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-4">
+                        <!-- Personal-Information -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title mt-0 mb-3">User Information</h4>
+                                <hr>
+                                <div class="text-start">
+                                    <p class="text-muted">
+                                        <strong>User Id :</strong> 
+                                        <span class="ms-2">{{user_detail.slug}}</span>
+                                    </p>
+                                    <p class="text-muted">
+                                        <strong>Username :</strong> 
+                                        <span class="ms-2">{{user_detail}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Personal-Information -->
+                    </div>
+
+                    <div class="col-xl-8">
+                        <ul class="nav nav-tabs mb-3">
+                            <li class="nav-item">
+                                <a href="#Pending" data-bs-toggle="tab" aria-expanded="true" class="nav-link active">
+                                    <i class="mdi mdi-account-alert-outline d-md-none d-block"></i>
+                                    <span class="d-none d-md-block">Pending Feedback</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#Feedbacks" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                                    <i class="mdi mdi-border-all d-md-none d-block"></i>
+                                    <span class="d-none d-md-block">Feedbacks</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="Pending">
+                                <div class="row">
+                                    <!-- end col-->
+                                    <div class="col-12 row">
+                                     
+                                        {% for feedback in user_detail.pending_feedback %}
+                                            {% include 'employee_grid.html' with Employee=feedback.rated_for %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="Feedbacks">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+            </div>
+            <div class="tab-pane" id="assign">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post" action="{% url 'assign_for_review' user_detail.slug %}">{% csrf_token %}
+            
+                               
+                                
+                                {% include 'basic_form.html' with form=form %}
+                                <div class="mt-5 form-group text-center">
+                                    <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                                    <button type="button" class="btn btn-sm btn-light href-btn" data-href="{{ cancel_url }}">Cancel</button>
+                                    <button type="reset" class="btn btn-sm btn-primary">Reset</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js_plug %}
+{{ form.media.js }}
+{% endblock %}
+{% block extra_js %}
+
+{% endblock %}

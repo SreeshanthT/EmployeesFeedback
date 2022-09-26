@@ -17,11 +17,14 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
+from Employee_admin import views
 
 urlpatterns = [
     path('super-admin/', admin.site.urls),
     path('admin/', include('Employee_admin.urls')),
     path('', include('Employee_user.urls')),
+    path('select2/', include('django_select2.urls')),
+    path('',views.dashboard,name='dashboard' ),
 ]
 
 if settings.DEBUG:

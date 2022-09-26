@@ -1,5 +1,10 @@
 from django.http import Http404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.shortcuts import get_object_or_404
+from django.utils.text import slugify 
+
+import random
+import string
 
 
 class ManageBaseView(object):
@@ -36,3 +41,33 @@ class ManageBaseView(object):
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
         return items
+    
+def get_object_or_none(query, **kwargs):
+    try:
+        return get_object_or_404(query, **kwargs)
+    except:
+        return None
+    
+def random_string_generator(size = 10, chars = string.ascii_lowercase + string.digits): 
+    return ''.join(random.choice(chars) for _ in range(size))
+
+def unique_slug_generator(instance,slugField, new_slug = None, size=4): 
+    if new_slug is not None: 
+        slug = new_slug 
+    else: 
+        slug = slugify(slugField) 
+    Klass = instance.__class__ 
+    qs_exists = Klass.objects.filter(slug = slug).exists() 
+      
+    if qs_exists: 
+        new_slug = "{slug}-{randstr}".format( 
+            slug = slug, randstr = random_string_generator(size = size)) 
+              
+        return unique_slug_generator(instance,slugField, new_slug = new_slug) 
+    return slug 
+
+def upload_to_uuid(path):
+    path_url = '%s/{uuid:base32}{ext}' % path
+    return FilePattern(
+        filename_pattern=path_url
+    )

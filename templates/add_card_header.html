@@ -1,0 +1,21 @@
+<div class="card-header">
+    <form action="{{add_url}}" method="get">
+        <div class="row">
+            <div class="col-12 col-md-9">
+                {% if modal %}
+                <div class="row">
+                    <div class="mb-3 col-12 col-md-4">
+                        {% include 'modal_attached_select.html' %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-12 col-md-3">
+                <button style="float:right;" type="submit" class="btn btn-outline-success">
+                    <i class="dripicons-plus"></i>
+                    Add {{add_model}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

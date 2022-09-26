@@ -3,7 +3,7 @@
     {% load static %}
     <head>
         <meta charset="utf-8" />
-        <title>{% block title %}Dashboard{% endblock %} | Pygmalion</title>
+        <title>{% block title %}Dashboard{% endblock %} | EMP</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -259,7 +259,9 @@
             // $('li').removeClass('menuitem-active')
             // $('a[href="{{ request.path }}"]').parents('.side-nav-item').addClass('menuitem-active');
             // $('a[href="{{ request.path }}"]').parents().addClass('menuitem-active').parent().parent().addClass('show');
-            $('.href-btn').on('click',function(){
+
+            $('a[href="{{ request.path }}"]').parents().addClass('menuitem-active').parent().parent().addClass('show');
+            $(document).on('click','.href-btn',function(){
                 window.location.href = $(this).data('href')
             })
         </script>

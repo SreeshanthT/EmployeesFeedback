@@ -1,0 +1,20 @@
+<div class="row" id="row">
+    {% for field in form %}
+        <div class="mb-3 col-md-6 col-12 {% if field.errors %}form-valid-error-custom{% endif %}">
+            {% if not field.is_hidden %}
+            <label for="example-email" class="form-label">{{field.label}} {%if field.field.required%}*{% endif %}</label>
+            {% endif %}
+            {% if field.help_text %}
+                <span class="mx-1" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html='true'
+                    data-bs-content="{{field.help_text|safe}}" title="{{field.label}}">
+                    <!-- <i class="uil uil-exclamation-circle"></i> -->
+                    <i class="dripicons-information"></i>
+                </span>
+            {% endif %}
+            {{field}}
+            <div class="invalid-feedback">
+                {{field.errors}}
+            </div>
+        </div>
+    {% endfor %}
+</div>

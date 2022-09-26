@@ -1,0 +1,54 @@
+{% extends 'dashboard.html' %}
+{% load static crispy_forms_tags %}
+{% block title %}Employee{% endblock %}
+
+{% block extra_css_plug %}
+<link rel="stylesheet" href="{% static 'user/assets/css/custom.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item">
+                            <a href="/">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ cancel_url }}">Users</a>
+                        </li>
+                        <li class="breadcrumb-item active">{% if user_ %}Change Employee{% else %}Add Employee{% endif %}</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">{% if user_ %}Change Employee{% else %}Add Employee{% endif %}</h4>
+            </div>
+        </div>
+    </div>
+    {% include 'alert_messages.html' %}
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">{% csrf_token %}
+
+                    {% include 'basic_form.html' %}
+
+                    <div class="mt-5 form-group text-center">
+                        <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                        <button type="button" class="btn btn-sm btn-light href-btn" data-href="{{ cancel_url }}">Cancel</button>
+                        <button type="reset" class="btn btn-sm btn-primary">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js_plug %}
+{{ form.media.js }}
+{% endblock %}
+{% block extra_js %}
+
+{% endblock %}

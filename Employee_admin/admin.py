@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
-from .models import User,Review
+from .models import User,Review,Department
 
 # Register your models here.
 
@@ -22,4 +22,7 @@ class CustomUserAdmin(UserAdmin):
     
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
+    pass
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
     pass

@@ -1,0 +1,82 @@
+{% extends 'dashboard.html' %}
+{% block title %}Users{% endblock %}
+{% load static crispy_forms_tags %}
+
+{% block extra_css_plug %}
+{% include 'data_table_css_plug.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row page-title-box">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Reviews</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Reviews</h4>
+            </div>
+        </div>
+    </div>
+    {% include 'alert_messages.html' %}
+    <div class="row">
+        <div class="card">
+            {% url 'add-review' as url %}
+            {% include 'add_card_header.html' with add_url=url add_model="Review" modal=False %}
+            <div class="card-body">
+                <table table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Review</th>
+                            <th scope="col">Rate</th>
+                            <th scope="col">Feedback from</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for obj in table_data %}
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{obj.rated_for.username}}</td>
+                            <td>{{obj.rate}}</td>
+                            <td>{{obj.rated_by.username}}</td>
+                            <td>
+                                <button class="btn btn-sm btn-light href-btn" data-href="{% url 'manage-user' obj.slug %}">
+                                    Edit
+                                </button>
+                                <button class="btn btn-sm btn-light href-btn">
+                                    View Details
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block extra_js_plug %}
+<!-- Datatables js -->
+
+{% include 'data_table_script_plug.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<!-- Datatable Init js -->
+<!-- <script src="{% static 'user/assets' %}/js/pages/demo.datatable-init.js"></script> -->
+
+<script>
+    var exportColumn = [0,1,2,3]    
+</script>
+<script src="/static/user/assets/js/datatable_custom.js" ></script>
+{% endblock %}

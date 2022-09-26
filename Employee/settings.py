@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +41,11 @@ INSTALLED_APPS = [
     
     'Employee_admin',
     'Employee_user',
+    
+    'mathfilters',
+    'django_select2',
+    'crispy_forms',
+    'stdimage',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +58,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR / 'django_cache'
+    },
+}
+
+SELECT2_CACHE_BACKEND = 'default'
+
 AUTH_USER_MODEL = 'Employee_admin.User'
 
 ROOT_URLCONF = 'Employee.urls'
@@ -59,7 +75,7 @@ ROOT_URLCONF = 'Employee.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': ['templates',os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
