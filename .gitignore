@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+*/migrations/*
+!*/migrations/__init__.py
+*/.sass-cache/*
+django_cache
+
+
+# Environments
+venv
