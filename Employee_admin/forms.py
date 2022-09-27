@@ -146,3 +146,14 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['rated_for','rated_by','rate','discription']
+
+class DepartmentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(DepartmentForm,self).__init__(*args, **kwargs)
+        for name in self.fields.keys():
+            self.fields[name].widget.attrs.update({
+                'class':'form-control form-control-sm',
+            })
+    class Meta:
+        model = Department
+        fields = "__all__"

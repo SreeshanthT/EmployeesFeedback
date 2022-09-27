@@ -36,14 +36,16 @@
             </li>
             <li class="side-nav-title side-nav-item">Apps</li>
 
+            {% if user.is_superuser %}
+
             <li class="side-nav-item {% if user_active or role_active %}menuitem-active{% endif %}">
                 <a data-bs-toggle="collapse" href="#sidebarUser" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
                     <i class="dripicons-user-id"></i>
                     <span> Masters </span>
                     <span class="menu-arrow"></span>
                 </a>
-                <div class="collapse {% if user_active or review_active %}menuitem-active show{% endif %}" id="sidebarUser">
-                    <ul class="side-nav-second-level {% if user_active or review_active %}menuitem-active{% endif %}">
+                <div class="collapse {% if user_active or review_active or department_active %}menuitem-active show{% endif %}" id="sidebarUser">
+                    <ul class="side-nav-second-level {% if user_active or review_active or department_active %}menuitem-active{% endif %}">
                         
                             <li class="{% if user_active %}menuitem-active{% endif %}">
                                 <a href="{% url 'list-users' %}">Employee</a>
@@ -53,12 +55,16 @@
                         <li class="{% if review_active %}menuitem-active{% endif %}">
                             <a href="{% url 'list-review' %}">Review</a>
                         </li>
+
+                        <li class="{% if department_active %}menuitem-active{% endif %}">
+                            <a href="{% url 'list-department' %}">Department</a> 
+                        </li>
                         
                     </ul>
                 </div>
             </li>
 
-
+            {% else %}
             <li class="side-nav-item {% if Pending_active or Reviewed_active or division_active or period_active %}menuitem-active{% endif %}">
                 <a data-bs-toggle="collapse" href="#sidebarCore" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
                     <i class="uil-box"></i>
@@ -69,17 +75,17 @@
                     <ul class="side-nav-second-level {% if Pending_active or Reviewed_active or division_active or period_active %}menuitem-active{% endif %}">
                
                             <li class="{% if Pending_active %}menuitem-active{% endif %}">
-                                <a href="sad">Pending</a>
+                                <a href="{% url 'list-pending' %}">Pending</a>
                             </li>
       
                             <li class="{% if Reviewed_active %}menuitem-active{% endif %}">
-                                <a href="sd">Reviewed</a>
+                                <a href="{% url 'list-feedback' %}">Reviewed</a>
                             </li>
               
                     </ul>
                 </div>
             </li>
-            
+            {% endif %}
         </ul>
 
         <!-- Help Box -->

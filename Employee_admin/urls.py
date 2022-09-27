@@ -16,7 +16,12 @@ urlpatterns = [
     
     path('review/',include([
         path('',views.ReviewManagementView.as_view(method_name='list_of_review'),name='list-review'),
-        path('add-review/',views.ReviewManagementView.as_view(method_name='manage_user'),name='add-review'),
-        path('edit-review/<int:pk>/',views.ReviewManagementView.as_view(method_name='manage_user'),name='edit-review'),
+        path('add-review/',views.ReviewManagementView.as_view(method_name='manage_review'),name='add-review'),
+        path('edit-review/<str:pk>/',views.ReviewManagementView.as_view(method_name='manage_review'),name='edit-review'),
+    ])),
+    path('department/',include([
+        path('',views.DepartmentManagementView.as_view(method_name='list_of_department'),name='list-department'),
+        path('add-department/',views.DepartmentManagementView.as_view(method_name='manage_department'),name='add-department'),
+        path('edit-department/<str:pk>/',views.DepartmentManagementView.as_view(method_name='manage_department'),name='edit-department'),
     ]))
 ]

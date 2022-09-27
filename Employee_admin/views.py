@@ -8,7 +8,7 @@ from django.db.models import Q
 from Employee_admin.utils import get_object_or_none,ManageBaseView
 from Employee_admin.mixins import LoggedInUser
 from Employee_admin.forms import *
-from .models import Review, User
+from .models import Review, User, Department
 
 OOPS = 'Oops! Something went wrong try again later.'
 # Create your views here.
@@ -40,7 +40,7 @@ def logout_view(request,*args,**kwargs):
 @login_required(login_url="login-page")
 def dashboard(request,*args,**kwargs):
     dashboard_active = True
-    
+    complete_users = User.objects.all()
     return render(request,'dashboard.html',locals())
 
 
@@ -126,10 +126,10 @@ class ReviewManagementView(LoggedInUser,ManageBaseView):
         table_data = Review.objects.filter(is_rated = True)
         return render(request,'list_of_reviews.html',locals())
     
-    def manage_user(self,request,*args,**kwargs):
+    def manage_review(self,request,*args,**kwargs):
         review_active = True
         cancel_url = reverse('list-review')
-        review = get_object_or_none(Review,slug=kwargs.get('pk'))
+        review = get_object_or_none(Review,id=kwargs.get('pk'))
             
         form = ReviewForm(instance = review)
 
@@ -142,10 +142,10 @@ class ReviewManagementView(LoggedInUser,ManageBaseView):
             if form.is_valid():
                 form_object = form.save()
                 if review is not None:
-                    messages.success(request,f'user {form_object} is successfully updated')
+                    messages.success(request,f'{form_object} is successfully updated')
                     request.user.log_change(request,form_object,form.changed_data)
                 else:
-                    messages.success(request,f'user {form_object} is successfully added')
+                    messages.success(request,f'{form_object} is successfully added')
                     request.user.log_addition(request,form_object)
                 return redirect(cancel_url)
             else:
@@ -154,4 +154,38 @@ class ReviewManagementView(LoggedInUser,ManageBaseView):
                 print(form.errors)
             
         return render(request,'manage_review.html',locals())
+    
+class DepartmentManagementView(LoggedInUser,ManageBaseView):
+    def list_of_department(self,request,*args,**kwargs):
+        table_data = Department.objects.all()
+        return render(request,'list_of_department.html',locals())
+    
+    def manage_department(self,request,*args,**kwargs):
+        department_active = True
+        cancel_url = reverse('list-department')
+        department = get_object_or_none(Department,id=kwargs.get('pk'))
+        print(department)
+        form = DepartmentForm(instance = department)
+
+
+            
+        if request.method == "POST":
+            form = DepartmentForm(request.POST,instance = department)
+
+            print(request.POST.get('department'))
+            if form.is_valid():
+                form_object = form.save()
+                if department is not None:
+                    messages.success(request,f'department {form_object} is successfully updated')
+                    request.user.log_change(request,form_object,form.changed_data)
+                else:
+                    messages.success(request,f'department {form_object} is successfully added')
+                    request.user.log_addition(request,form_object)
+                return redirect(cancel_url)
+            else:
+                messages.error(request,OOPS)
+
+                print(form.errors)
+            
+        return render(request,'manage_department.html',locals())
     

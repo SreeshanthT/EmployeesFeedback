@@ -1,0 +1,44 @@
+
+{% extends 'dashboard.html' %}
+{% block title %}Pendings{% endblock %}
+{% load static crispy_forms_tags %}
+
+{% block extra_css_plug %}
+{% include 'data_table_css_plug.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+            <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">Pending Feedbacks</h4>
+            </div>
+        </div>
+    </div>
+            
+
+    {% include 'alert_messages.html' %}
+            
+    <div class="row">
+        <!-- end col-->
+        <div class="col-xl-9 col-lg-9 order-lg-1 row">
+            {% for feedback in pendings %}
+                {% include 'employee_grid.html' with Employee=feedback.rated_for %}
+                {% empty %}
+                <div class="row jobs text-center mt-5">
+                    <div class="col-12 mb-3">
+                        <img class="avatar avatar-xxl mb-3 mt-5"
+                            width="100px" height="100px"
+                            src="{% static 'user/assets/images/yelling.svg' %}"
+                            alt="No result">
+                        <p class="card-text">No pendings to show</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
